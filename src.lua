@@ -100,7 +100,6 @@ if not table.find(placeids, game.PlaceId) then
       local color = getgenv().UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and getgenv().FriendColor or getgenv().EnemyColor)
       esp(v.Character, color)
       end)
-
       esp(v.Character, color)
     end
   end
