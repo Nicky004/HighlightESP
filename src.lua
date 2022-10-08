@@ -114,13 +114,11 @@ if not table.find(placeids, game.PlaceId) then
           v.OutlineColor = color
           v.FillColor = color
           v.FillTransparency = getgenv().FillTransparency
-          esp(i, color)
         else
           local color = getgenv().UseTeamColor and players:GetPlayerFromCharacter(i).TeamColor.Color or ((plr.TeamColor.Color == players:GetPlayerFromCharacter(i).TeamColor.Color) and getgenv().FriendColor or getgenv().EnemyColor)
           v.OutlineColor = color
           v.FillColor = color
           v.FillTransparency = getgenv().FillTransparency
-          esp(i, color)
         end
         if getgenv().ShowFriendlies then
           if getgenv().Toggled then
@@ -200,31 +198,26 @@ elseif game.PlaceId == 292439477 then
           v.OutlineColor = color
           v.FillColor = color
           v.FillTransparency = getgenv().FillTransparency
-          esp(i, color)
         else
           if getgenv().UseTeamColor then
             if string.find(string.lower(i.Parent.Name), "blue") then
               v.OutlineColor = BrickColor.new("Bright blue").Color
               v.FillColor = BrickColor.new("Bright blue").Color
               v.FillTransparency = getgenv().FillTransparency
-              esp(i, BrickColor.new("Bright blue").Color)
             elseif string.find(string.lower(i.Parent.Name), "orange") then
               v.OutlineColor = BrickColor.new("Bright orange").Color
               v.FillColor = BrickColor.new("Bright orange").Color
               v.FillTransparency = getgenv().FillTransparency
-              esp(i, BrickColor.new("Bright orange").Color)
             end
           else
             if i.Parent.Name == tostring(plr.TeamColor) then
               v.OutlineColor = getgenv().FriendColor
               v.FillColor = getgenv().FriendColor
               v.FillTransparency = getgenv().FillTransparency
-              esp(i, getgenv().FriendColor)
             else
               v.OutlineColor = getgenv().EnemyColor
               v.FillColor = getgenv().EnemyColor
               v.FillTransparency = getgenv().FillTransparency
-              esp(i, getgenv().EnemyColor)
             end
           end
         end
