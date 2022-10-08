@@ -22,6 +22,8 @@ if syn then
   if syn.protect_gui then
     syn.protect_gui(Folder)
   end
+elseif gethui then
+    Folder.Parent = gethui()
 end
 
 if not _G.AntisEnabled then -- To not execute the code twice, because the code underneath only needs to be ran once and in one instance.
