@@ -54,7 +54,7 @@ end
 
 if not _G.UISEnabled then
   toggle = game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
-  if input.KeyCode == Enum.KeyCode.F3 then
+  if input.KeyCode == _G.ToggleBind then
     if _G.Toggled == true then
       _G.Toggled = false
       for i, v in pairs(highlights) do
