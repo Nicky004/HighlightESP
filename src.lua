@@ -26,32 +26,6 @@ elseif gethui then
     Folder.Parent = gethui()
 end
 
-if not _G.AntisEnabled then -- To not execute the code twice, because the code underneath only needs to be ran once and in one instance.
-  hookfunction((gcinfo or collectgarbage), function(...) -- Memory spoof.
-  return math.random(200,350)
-  end)
-
-  hookfunction(game:GetService("Players").LocalPlayer.Kick, function(...) -- Simple anti kick (client kicks, not server-sided).
-  return wait(inf)
-  end)
-
-  make_writeable(getrawmetatable(game)) -- This just lets you open the developer console in some games that don't let you.
-  local backup = getrawmetatable(game).__namecall
-  getrawmetatable(game).__namecall = function(u, ...)
-  local m = ({...})[#({...})]
-  local packed = {...}
-  local a = {}
-  for i = 1, #packed - 1 do
-    a[i] = packed[i]
-  end
-  if m == 'SetCore' and u == game:GetService('StarterGui') and a[1] == 'DeveloperConsoleVisible' and a[2] == false then
-    return true
-  end
-  return backup(u, ...)
-end
-_G.AntisEnabled = true
-end
-
 function esp(target, color)
   if not highlights[target] then
     local highlight = Instance.new("Highlight", Folder)
