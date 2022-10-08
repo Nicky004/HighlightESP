@@ -1,8 +1,8 @@
-if _G.Status == "Restarting" then -- To detect if the script is restarting, preventing two of the same scripts running.
+if getgenv().Status == "Restarting" then -- To detect if the script is restarting, preventing two of the same scripts running.
   return
 end
 
-_G.Status = "Enabled"
+getgenv().Status = "Enabled"
 local coregui = game:GetService("CoreGui")
 local players = game:GetService("Players")
 local plr = players.LocalPlayer
@@ -11,8 +11,8 @@ local fromHSV = Color3.fromHSV
 local placeids = {292439477, 0}
 
 if game:GetService("CoreGui"):FindFirstChild("Highlight Container") then
-  _G.Status = "Restarting"
-  _G.Status = "Enabled"
+  getgenv().Status = "Restarting"
+  getgenv().Status = "Enabled"
 end
 
 local highlights = {}
@@ -34,7 +34,7 @@ function esp(target, color)
     highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
     highlight.OutlineColor = color
     highlight.FillColor = color
-    highlight.FillTransparency = _G.FillTransparency
+    highlight.FillTransparency = getgenv().FillTransparency
     highlights[target] = highlight
     if syn then
       if syn.protect_gui then
@@ -52,18 +52,18 @@ function esp(target, color)
   end
 end
 
-if not _G.UISEnabled then
+if not getgenv().UISEnabled then
   toggle = game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
-  if input.KeyCode == _G.ToggleBind then
-    if _G.Toggled == true then
-      _G.Toggled = false
+  if input.KeyCode == getgenv().ToggleBind then
+    if getgenv().Toggled == true then
+      getgenv().Toggled = false
       for i, v in pairs(highlights) do
         if not string.find(v.Name, "Hidden") then
           v.Enabled = false
         end
       end
-    elseif _G.Toggled == false then
-      _G.Toggled = true
+    elseif getgenv().Toggled == false then
+      getgenv().Toggled = true
       for i, v in pairs(highlights) do
         if not string.find(v.Name, "Hidden") then
           v.Enabled = true
@@ -72,16 +72,16 @@ if not _G.UISEnabled then
     end
   end
   end)
-  _G.UISEnabled = true
+  getgenv().UISEnabled = true
 end
 
 if not table.find(placeids, game.PlaceId) then
   added = players.PlayerAdded:Connect(function(v)
   if v.Character then
-    esp(v.Character, _G.UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and _G.FriendColor or _G.EnemyColor))
+    esp(v.Character, getgenv().UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and getgenv().FriendColor or getgenv().EnemyColor))
   else
     v.CharacterAdded:Connect(function()
-    esp(v.Character, _G.UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and _G.FriendColor or _G.EnemyColor))
+    esp(v.Character, getgenv().UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and getgenv().FriendColor or getgenv().EnemyColor))
     end)
   end
   end)
@@ -95,9 +95,9 @@ if not table.find(placeids, game.PlaceId) then
 
   for i, v in pairs(players:GetPlayers()) do
     if v ~= plr then
-      local color = _G.UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and _G.FriendColor or _G.EnemyColor)
+      local color = getgenv().UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and getgenv().FriendColor or getgenv().EnemyColor)
       v.CharacterAdded:Connect(function()
-      local color = _G.UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and _G.FriendColor or _G.EnemyColor)
+      local color = getgenv().UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and getgenv().FriendColor or getgenv().EnemyColor)
       esp(v.Character, color)
       end)
 
@@ -106,24 +106,24 @@ if not table.find(placeids, game.PlaceId) then
   end
 
   while game:GetService("RunService").Heartbeat:Wait() do
-    if _G.Status == "Enabled" then
+    if getgenv().Status == "Enabled" then
       for i, v in pairs(highlights) do
-        if _G.RGBMode and not _G.UseTeamColor then
-          local hue = tick() % _G.RGBSpeed / _G.RGBSpeed
+        if getgenv().RGBMode and not getgenv().UseTeamColor then
+          local hue = tick() % getgenv().RGBSpeed / getgenv().RGBSpeed
           local color = fromHSV(hue, 1, 1)
           v.OutlineColor = color
           v.FillColor = color
-          v.FillTransparency = _G.FillTransparency
+          v.FillTransparency = getgenv().FillTransparency
           esp(i, color)
         else
-          local color = _G.UseTeamColor and players:GetPlayerFromCharacter(i).TeamColor.Color or ((plr.TeamColor.Color == players:GetPlayerFromCharacter(i).TeamColor.Color) and _G.FriendColor or _G.EnemyColor)
+          local color = getgenv().UseTeamColor and players:GetPlayerFromCharacter(i).TeamColor.Color or ((plr.TeamColor.Color == players:GetPlayerFromCharacter(i).TeamColor.Color) and getgenv().FriendColor or getgenv().EnemyColor)
           v.OutlineColor = color
           v.FillColor = color
-          v.FillTransparency = _G.FillTransparency
+          v.FillTransparency = getgenv().FillTransparency
           esp(i, color)
         end
-        if _G.ShowFriendlies then
-          if _G.Toggled then
+        if getgenv().ShowFriendlies then
+          if getgenv().Toggled then
             if string.find(v.Name, "Hidden") then
               local SplitName = string.split(v.Name, "|")
               v.Name = SplitName[1]
@@ -135,14 +135,14 @@ if not table.find(placeids, game.PlaceId) then
             end
             v.Enabled = false
           end
-        elseif not _G.ShowFriendlies then
+        elseif not getgenv().ShowFriendlies then
           if players:GetPlayerFromCharacter(i).TeamColor.Color == plr.TeamColor.Color then
             if not string.find(v.Name, "Hidden") then
               v.Name = v.Name .. "|Hidden"
             end
             v.Enabled = false
           else
-            if _G.Toggled then
+            if getgenv().Toggled then
               if string.find(v.Name, "Hidden") then
                 local SplitName = string.split(v.Name, "|")
                 v.Name = SplitName[1]
@@ -192,44 +192,44 @@ elseif game.PlaceId == 292439477 then
   end
 
   while game:GetService("RunService").Heartbeat:Wait() do
-    if _G.Status == "Enabled" then
+    if getgenv().Status == "Enabled" then
       for i, v in pairs(highlights) do
-        if _G.RGBMode and not _G.UseTeamColor then
-          local hue = tick() % _G.RGBSpeed / _G.RGBSpeed
+        if getgenv().RGBMode and not getgenv().UseTeamColor then
+          local hue = tick() % getgenv().RGBSpeed / getgenv().RGBSpeed
           local color = fromHSV(hue, 1, 1)
           v.OutlineColor = color
           v.FillColor = color
-          v.FillTransparency = _G.FillTransparency
+          v.FillTransparency = getgenv().FillTransparency
           esp(i, color)
         else
-          if _G.UseTeamColor then
+          if getgenv().UseTeamColor then
             if string.find(string.lower(i.Parent.Name), "blue") then
               v.OutlineColor = BrickColor.new("Bright blue").Color
               v.FillColor = BrickColor.new("Bright blue").Color
-              v.FillTransparency = _G.FillTransparency
+              v.FillTransparency = getgenv().FillTransparency
               esp(i, BrickColor.new("Bright blue").Color)
             elseif string.find(string.lower(i.Parent.Name), "orange") then
               v.OutlineColor = BrickColor.new("Bright orange").Color
               v.FillColor = BrickColor.new("Bright orange").Color
-              v.FillTransparency = _G.FillTransparency
+              v.FillTransparency = getgenv().FillTransparency
               esp(i, BrickColor.new("Bright orange").Color)
             end
           else
             if i.Parent.Name == tostring(plr.TeamColor) then
-              v.OutlineColor = _G.FriendColor
-              v.FillColor = _G.FriendColor
-              v.FillTransparency = _G.FillTransparency
-              esp(i, _G.FriendColor)
+              v.OutlineColor = getgenv().FriendColor
+              v.FillColor = getgenv().FriendColor
+              v.FillTransparency = getgenv().FillTransparency
+              esp(i, getgenv().FriendColor)
             else
-              v.OutlineColor = _G.EnemyColor
-              v.FillColor = _G.EnemyColor
-              v.FillTransparency = _G.FillTransparency
-              esp(i, _G.EnemyColor)
+              v.OutlineColor = getgenv().EnemyColor
+              v.FillColor = getgenv().EnemyColor
+              v.FillTransparency = getgenv().FillTransparency
+              esp(i, getgenv().EnemyColor)
             end
           end
         end
-        if _G.ShowFriendlies then
-          if _G.Toggled then
+        if getgenv().ShowFriendlies then
+          if getgenv().Toggled then
             if string.find(v.Name, "Hidden") then
               local SplitName = string.split(v.Name, "|")
               v.Name = SplitName[1]
@@ -241,14 +241,14 @@ elseif game.PlaceId == 292439477 then
             end
             v.Enabled = false
           end
-        elseif not _G.ShowFriendlies then
+        elseif not getgenv().ShowFriendlies then
           if i.Parent.Name == tostring(plr.TeamColor) then
             if not string.find(v.Name, "Hidden") then
               v.Name = v.Name .. "|Hidden"
             end
             v.Enabled = false
           else
-            if _G.Toggled then
+            if getgenv().Toggled then
               if string.find(v.Name, "Hidden") then
                 local SplitName = string.split(v.Name, "|")
                 v.Name = SplitName[1]
