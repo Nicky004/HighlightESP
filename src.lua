@@ -163,7 +163,7 @@ if not table.find(placeids, game.PlaceId) then
   end
 
 elseif game.PlaceId == 292439477 then
-  added = workspace.Players.DescendantAdded:Connect(function(v)
+  added = game:GetService("Workspace").Players.DescendantAdded:Connect(function(v)
   if string.find(string.lower(v.Parent.Name), "blue") then
     esp(v, BrickColor.new("Bright blue").Color)
   elseif string.find(string.lower(v.Parent.Name), "orange") then
@@ -171,14 +171,14 @@ elseif game.PlaceId == 292439477 then
   end
   end)
 
-  removed = workspace.Players.DescendantRemoving:Connect(function(v)
+  removed = game:GetService("Workspace").Players.DescendantRemoving:Connect(function(v)
   if highlights[v] then
     highlights[v]:Destroy()
     highlights[v] = nil
   end
   end)
 
-  for i, v in pairs(workspace.Players:GetDescendants()) do
+  for i, v in pairs(game:GetService("Workspace").Players:GetDescendants()) do
     if v ~= plr.Character and v:IsA("Model") then
       if string.find(string.lower(v.Parent.Name), "blue") then
         esp(v, BrickColor.new("Bright blue").Color)
